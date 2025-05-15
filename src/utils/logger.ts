@@ -101,8 +101,8 @@ class Logger implements ILogger {
     });
   }
 
-  public error(message: string): void {
-    this.logger.error(message);
+  public error(message: string, err: unknown): void {
+    this.logger.error(message, err);
   }
 
   public warn(message: string): void {
