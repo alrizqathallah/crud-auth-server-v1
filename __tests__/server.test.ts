@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import Server from "../src/server";
 import config from "../src/configs/env.config"; // Import actual config
+import logger from "../src/utils/logger";
 
 vi.mock(import("../src/configs/env.config"), async (importOriginal) => {
   const actual = await importOriginal();
@@ -10,6 +11,13 @@ vi.mock(import("../src/configs/env.config"), async (importOriginal) => {
     NODE_ENV: "development",
   };
 });
+
+vi.mock("../src/utils/logger", () => ({
+  default: {
+    info: vi.fn(),
+    error: vi.fn(),
+  },
+}));
 
 // Mock only console.log to prevent test pollution
 vi.spyOn(console, "log").mockImplementation(() => {});
@@ -27,7 +35,7 @@ describe("Server configuration", () => {
     const server = new Server();
     server.startInstance();
 
-    expect(console.log).toBeCalledWith(
+    expect(logger.info).toBeCalledWith(
       `Server is running on port ${config.PORT} in ${config.NODE_ENV} mode`,
     );
   });

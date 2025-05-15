@@ -1,5 +1,6 @@
 import App from "./app";
 import config from "./configs/env.config";
+import logger from "./utils/logger";
 
 class Server {
   public server: App;
@@ -12,7 +13,7 @@ class Server {
 
   public startInstance(): void {
     this.server.express.listen(this.port, () => {
-      console.log(`Server is running on port ${this.port} in ${this.env} mode`);
+      logger.info(`Server is running on port ${this.port} in ${this.env} mode`);
     });
   }
 }
